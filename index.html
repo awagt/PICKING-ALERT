@@ -658,7 +658,7 @@ function parseCSV(text){
     if(quoted){
       if(c==='"'){if(text[i+1]==='"'){cell+='"';i++;}else quoted=false;}
       else cell+=c;
-    }else if(c==='"')quoted=true;
+    }else if(c==='"'&&cell.trim()==='')quoted=true;
     else if(c===','){row.push(cell);cell='';}
     else if(c==='\n'||c==='\r'){
       if(c==='\r'&&text[i+1]==='\n')i++;
@@ -672,6 +672,12 @@ function parseCSV(text){
   return rows;
 }
 
+/* Fallback: one row per line, for exports with unbalanced quote marks inside values. */
+function parseCSVLines(text){
+  return text.replace(/^\uFEFF/,'').split(/\r\n|\n|\r/).filter(function(x){return x.trim()!=='';}).map(function(line){
+    return line.split(',').map(function(c){var t=c.trim();return /^".*"$/.test(t)?t.slice(1,-1).replace(/""/g,'"'):c;});
+  });
+}
 function mapColumns(header){
   var norm=header.map(normHeader);
   var map={},used={};
@@ -1740,10 +1746,16 @@ function loadText(text,name,lastModified,fromStorage){
       '\n\nColumns found: '+rows[0].map(cleanText).filter(Boolean).join(', ')+'\n\nExport the packing item list from Middleware and try again.');
   }
   var width=rows[0].length;
+  var physical=text.replace(/^\uFEFF/,'').split(/\r\n|\n|\r/).filter(function(x){return x.trim()!=='';}).length;
+  if(physical!==rows.length){
+    var fixed=parseCSVLines(text);
+    if(fixed.length===physical&&fixed.every(function(r){return r.length===width;}))rows=fixed;
+  }
   var exportedAt=exportTimeFromName(name);
   var built=buildRecords(rows,cols,{exportedAt:exportedAt,lastModified:lastModified});
   var recs=built.recs;
   rows.slice(1).forEach(function(r,i){if(r.length!==width&&recs[i])recs[i].issues.push('Row has '+r.length+' columns instead of '+width);});
+  if(physical-1!==recs.length)built.notes.unshift('The file has '+(physical-1)+' lines but '+recs.length+' records could be read. Some rows may be merged because of quote marks in item names. Check the Import issues list.');
   var dupes=recs.filter(function(l){return l.duplicate;}).length;
   var attention=recs.filter(function(l){return !l.duplicate&&l.issues.length;}).length;
   state.recs=recs;
