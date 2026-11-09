@@ -133,7 +133,7 @@ details.coll > summary::before{content:"";width:8px;height:8px;border-right:2px 
 details.coll[open] > summary::before{transform:rotate(45deg)}
 
 /* Leaderboard */
-.hl-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px}
+.hl-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}
 .hl{background:#fff;border-radius:var(--radius);box-shadow:var(--shadow);padding:14px 16px}
 .hl h3{font-size:14px;font-weight:600;color:var(--muted);display:flex;gap:8px;align-items:center}
 .hl h3 svg{flex:none}
@@ -307,7 +307,6 @@ footer{color:var(--muted);font-size:13.5px;padding:24px 0 0}
 
 @media (max-width:1080px){
   .kpis{grid-template-columns:repeat(2,minmax(0,1fr))}
-  .hl-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
   .f-row{grid-template-columns:repeat(2,minmax(0,1fr))}
   .f-row .f-search{grid-column:1/-1}
   .lb-row{grid-template-columns:54px minmax(0,1fr)}
@@ -383,11 +382,10 @@ footer{color:var(--muted);font-size:13.5px;padding:24px 0 0}
       <p>Export the packing items from Middleware and drop the CSV here. Both the full export and the compact export are recognised automatically.</p>
       <div class="row">
         <button class="btn go" id="choose" type="button">Choose CSV file</button>
-        <button class="btn" id="reloadLast" type="button" hidden></button>
       </div>
     </div>
     <div class="error" id="error" role="alert" hidden></div>
-    <p class="formats">Nothing leaves this computer. The file is read in your browser only.</p>
+    <p class="formats">The file is read in your browser only and is not saved. Each upload starts fresh.</p>
   </section>
 
   <section id="v-overview" class="view" role="tabpanel" hidden></section>
@@ -1278,24 +1276,24 @@ function toCSV(head,rows,textCols){
   rows.forEach(function(r){lines.push(r.map(function(v,i){return csvCell(v,textCols&&textCols.indexOf(i)>=0);}).join(','));});
   return '﻿'+lines.join('\r\n');
 }
-var REC_HEAD=['Store','Picking status','Order No.','Item','Item details','SKU','Article No.','Qty','Qty ordered','STO','STO availability','Order created (Qatar)','Waiting','Waiting (hours)','Delayed','Middleware delay message','Remarks','Seen in lists','Row in file'];
+var REC_HEAD=['Store','Picking status','Order No.','Item','Item details','SKU','Article No.','Qty','Qty ordered','STO','STO availability','Order created (Qatar)','Waiting','Waiting (hours)','Delayed','Middleware delay message','Remarks','Row in file'];
 function recRow(l){
   var st=l.status==='rejected'?(l.reassigned?'Rejected, re-assigned to '+l.reassignedTo.join(', '):'Rejected, no new store'):STATUS[l.status].label;
   return [l.store,st,l.order,l.name,l.details,l.sku,l.article,fmtNum(l.qty),l.ordered===null?'':fmtNum(l.ordered),l.sto,
     {sto:'STO created','from-store':'No STO needed',ecom:'Picked by E-Com',waiting:'Waiting for STO'}[l.stoKind],
     l.created===null?l.createdRaw:dayClockQatar(l.created)+(l.approx?' (approx.)':''),
     ageText(l.age,l.approx),l.age===null?'':(Math.round(l.age/HOUR*10)/10),
-    l.delayed?'Yes':'No',l.delayMsg,remarks(l),l.seen||'',l.row];
+    l.delayed?'Yes':'No',l.delayMsg,remarks(l),l.row];
 }
 function exportRecords(items,label){
   download('Picking list - '+safeName(label)+' - '+stamp(Date.now())+'.csv',toCSV(REC_HEAD,items.map(recRow),[2,5,6]),'text/csv;charset=utf-8');
 }
 function exportMgmt(){
   var stores=ranked(storeStats());
-  var head=['Rank','Store','Status','Pending items','Pending PCS','Waiting for STO','Packed lines','Packed PCS','Rejected lines','Lines in this list','Packed share of lines (%)','Delayed items','Oldest pending','Oldest pending (hours)','Reminders sent','Last reminder sent (Qatar)','Overdue in lists (14 days)'];
+  var head=['Rank','Store','Status','Pending items','Pending PCS','Waiting for STO','Packed lines','Packed PCS','Rejected lines','Lines in this list','Packed share of lines (%)','Delayed items','Oldest pending','Oldest pending (hours)','Reminders sent','Last reminder sent (Qatar)'];
   var rows=stores.map(function(s){
     return [s.rank,s.name,PERF[s.perf].label,s.ready.length,fmtNum(s.readyPcs),s.waiting.length,s.packed.length,fmtNum(s.packedPcs),s.rejected.length,s.assigned,Math.round(s.completion*100),s.delayed,
-      s.oldest===null?'':ageText(s.oldest,s.approx),s.oldest===null?'':Math.round(s.oldest/HOUR*10)/10,s.reminders.sent,s.reminders.lastSent?dayClockQatar(s.reminders.lastSent):'',s.overdueLists];
+      s.oldest===null?'':ageText(s.oldest,s.approx),s.oldest===null?'':Math.round(s.oldest/HOUR*10)/10,s.reminders.sent,s.reminders.lastSent?dayClockQatar(s.reminders.lastSent):''];
   });
   var all=live();
   rows.push([]);
@@ -1509,7 +1507,6 @@ function renderPerformance(stores){
   if(!best.length)best=r.filter(function(s){return s.packed.length;}).sort(function(a,b){return b.completion-a.completion;}).slice(0,3);
   var load=r.filter(function(s){return s.ready.length;}).sort(function(a,b){return b.readyPcs-a.readyPcs||b.ready.length-a.ready.length;}).slice(0,3);
   var oldest=r.filter(function(s){return s.oldest!==null;}).sort(function(a,b){return b.oldest-a.oldest;}).slice(0,3);
-  var rep=r.filter(function(s){return s.overdueLists>=2;}).sort(function(a,b){return b.overdueDays-a.overdueDays||b.overdueLists-a.overdueLists;}).slice(0,3);
   function hl(title,ic,list,val,none){
     return '<section class="hl"><h3>'+icon(ic,18)+esc(title)+'</h3>'+(list.length?'<ol>'+list.map(function(s){
       return '<li><button type="button" data-action="open-store" data-store="'+esc(s.name)+'">'+esc(s.name)+'</button><span>'+esc(val(s))+'</span></li>';
@@ -1520,7 +1517,6 @@ function renderPerformance(stores){
     hl('Best performing','star',best,function(s){return s.perf==='excellent'?'All clear, '+fmtNum(s.packedPcs)+' PCS packed':Math.round(s.completion*100)+'% packed';},'No packed items in this list yet.')+
     hl('Highest pending workload','layers',load,function(s){return fmtNum(s.readyPcs)+' PCS';},'No pending workload.')+
     hl('Oldest pending orders','clock',oldest,function(s){return ageText(s.oldest,s.approx);},'No pending orders.')+
-    hl('Repeated delays','repeat',rep,function(s){return 'in '+plural(s.overdueLists,'list')+(s.overdueDays>1?', '+s.overdueDays+' days':'');},'None yet. This builds up as you upload lists over the day and the week.')+
     '</div>';
   var counts={};r.forEach(function(s){counts[s.perf]=(counts[s.perf]||0)+1;});
   var chips=[['','All stores',r.length],['pending','With pending items',r.filter(function(s){return s.ready.length;}).length],['critical','Critical',counts.critical||0],['attention','Attention Required',counts.attention||0],['ontrack','On Track',counts.ontrack||0],['excellent','Excellent',counts.excellent||0]];
@@ -1764,12 +1760,7 @@ function loadText(text,name,lastModified,fromStorage){
     timeMode:built.timeMode,refTime:built.refTime,exportedAt:exportedAt,notes:built.notes,
     total:recs.length,dupes:dupes,attention:attention,valid:recs.length-dupes-attention};
   state.loadedAt=Date.now();
-  var sig=hash(text);
   enrich(Date.now());
-  recordUploadHistory(sig,Date.now());
-  if(!fromStorage){
-    if(!save('pickAlert.lastFile',{name:name,text:text,lastModified:lastModified||null,loadedAt:Date.now()}))try{localStorage.removeItem('pickAlert.lastFile');}catch(e){}
-  }
   state.filters=Object.assign({},DEFAULT_FILTERS);
   syncFilterInputs();
   $('error').hidden=true;
@@ -1795,10 +1786,6 @@ function backToUpload(){
   $('uploadView').hidden=false;$('tabs').hidden=true;$('foot').hidden=true;
   document.querySelectorAll('.view').forEach(function(v){v.hidden=true;});
   document.body.classList.remove('loaded');
-  var last=load('pickAlert.lastFile',null);
-  var b=$('reloadLast');
-  if(last&&last.text){b.hidden=false;b.textContent='Reopen last list ('+last.name+')';}
-  else b.hidden=true;
 }
 
 /* ============ Actions ============ */
@@ -2001,11 +1988,6 @@ window.addEventListener('scroll',function(){tip.classList.remove('show');},{pass
 $('choose').addEventListener('click',function(){$('file').click();});
 $('newFile').addEventListener('click',function(){$('file').click();});
 $('file').addEventListener('change',function(e){handle(e.target.files[0]);e.target.value='';});
-$('reloadLast').addEventListener('click',function(){
-  var last=load('pickAlert.lastFile',null);
-  if(!last)return;
-  try{loadText(last.text,last.name,last.lastModified,true);}catch(err){showError(err.message);}
-});
 var drop=$('drop');
 ['dragenter','dragover'].forEach(function(n){drop.addEventListener(n,function(e){e.preventDefault();drop.classList.add('over');});});
 ['dragleave','drop'].forEach(function(n){drop.addEventListener(n,function(e){e.preventDefault();drop.classList.remove('over');});});
@@ -2063,10 +2045,8 @@ setInterval(function(){
 
 /* Start: reopen the last list automatically if it was loaded in the last 12 hours */
 (function start(){
-  var last=load('pickAlert.lastFile',null);
-  if(last&&last.text&&Date.now()-last.loadedAt<12*HOUR){
-    try{loadText(last.text,last.name,last.lastModified,true);return;}catch(e){}
-  }
+  try{localStorage.removeItem('pickAlert.lastFile');localStorage.removeItem('pickAlert.chases');}catch(e){}
+  history.items={};history.storeOverdue={};history.sigs={};saveHistory();
   backToUpload();
 })();
 window.__pickDashboard={state:state,live:live,storeStats:storeStats,alertText:alertText,alertHtml:alertHtml,mgmtSummary:mgmtSummary,history:function(){return history;}};
