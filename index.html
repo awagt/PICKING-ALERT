@@ -299,6 +299,91 @@ dialog::backdrop{background:rgba(18,38,63,.55)}
 #toast.show{opacity:1;pointer-events:auto;transform:translateX(-50%)}
 #toast button{background:#fff;color:var(--navy);border:0;border-radius:6px;padding:5px 10px;font-weight:700;white-space:nowrap}
 footer{color:var(--muted);font-size:13.5px;padding:24px 0 0}
+.credit{text-align:center;color:var(--muted);font-size:14px;padding:22px 16px 26px;border-top:1px solid var(--line);margin-top:30px}
+.credit a{color:var(--navy);font-weight:700;text-decoration:none;border-bottom:2px solid #5FA8FF}
+.credit a:hover{color:var(--blue)}
+/* Multi-store picker */
+.f-store{display:flex;flex-direction:column;gap:3px;min-width:0}
+.flabel{font-size:12.5px;font-weight:600;color:var(--muted)}
+.ms{position:relative}
+.ms-btn{width:100%;min-height:38px;border:1px solid #AEBBCB;border-radius:var(--radius-s);padding:6px 30px 6px 9px;background:#fff;text-align:left;font-size:14.5px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;position:relative}
+.ms-btn::after{content:"";position:absolute;right:12px;top:50%;width:7px;height:7px;border-right:2px solid var(--muted);border-bottom:2px solid var(--muted);transform:translateY(-70%) rotate(45deg)}
+.ms-btn.on{border-color:var(--blue);background:var(--blue-soft);font-weight:600}
+.ms-pop{position:absolute;z-index:30;top:calc(100% + 4px);left:0;min-width:100%;width:max-content;max-width:min(340px,calc(100vw - 32px));background:#fff;border:1px solid var(--line);border-radius:var(--radius-s);box-shadow:var(--shadow-up);padding:8px}
+.ms-acts{display:flex;gap:6px;padding:2px 2px 8px;border-bottom:1px solid var(--line-2);margin-bottom:6px}
+.ms-list{max-height:280px;overflow:auto;display:grid;gap:2px}
+.ms-list label{display:flex;align-items:center;gap:8px;padding:6px 6px;border-radius:6px;font-size:14.5px;font-weight:500;color:var(--ink);cursor:pointer;flex-direction:row}
+.ms-list label:hover{background:#F2F5F9}
+.ms-list input{width:16px;height:16px;min-height:0;flex:none}
+.ms-list .cnt{margin-left:auto;color:var(--muted);font-size:13px;padding-left:10px}
+/* Sorting and column filters */
+.th-sort{background:none;border:0;padding:0;font:inherit;color:inherit;font-weight:600;display:inline-flex;align-items:center;gap:4px;white-space:nowrap}
+.th-sort:hover{color:var(--ink)}
+.th-sort .arr{font-style:normal;font-size:10px;opacity:.35}
+.th-sort.on{color:var(--navy)}
+.th-sort.on .arr{opacity:1;color:var(--blue)}
+.items tr.colf th{background:#F5F8FB;padding:6px 8px;border-bottom:1px solid var(--line)}
+.colf input{width:100%;min-width:70px;min-height:30px;border:1px solid #C6D1DE;border-radius:6px;padding:4px 7px;font-size:13px;font-weight:400;background:#fff}
+.colf input.on{border-color:var(--blue);background:var(--blue-soft)}
+.f-sort{display:inline-flex;align-items:center;gap:6px;font-size:14px;color:var(--muted);font-weight:500}
+.f-sort select{min-height:34px;border:1px solid #AEBBCB;border-radius:var(--radius-s);padding:4px 8px;background:#fff;color:var(--ink)}
+.f-sort .btn{min-height:34px;padding:4px 10px}
+.seg{display:inline-flex;border:1px solid var(--line);border-radius:var(--radius-s);overflow:hidden;background:#fff}
+.seg button{border:0;background:none;padding:6px 12px;font-weight:600;font-size:13.5px;color:var(--muted)}
+.seg button[aria-pressed=true]{background:var(--navy);color:#fff}
+.empty-row td{text-align:center;color:var(--muted);padding:22px}
+/* Report dialog */
+#reportDlg{width:min(760px,calc(100vw - 24px))}
+.rep-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px 16px;margin-top:12px}
+.rep-grid label.f{display:flex;flex-direction:column;gap:4px;font-size:13px;font-weight:600;color:var(--muted)}
+.rep-grid input[type=text],.rep-grid select{min-height:36px;border:1px solid #AEBBCB;border-radius:var(--radius-s);padding:5px 9px;font-size:14.5px;color:var(--ink);font-weight:400;background:#fff}
+.rep-box{border:1px solid var(--line);border-radius:var(--radius-s);padding:10px 12px}
+.rep-box h4{font-size:13px;color:var(--muted);margin:0 0 6px}
+.rep-box label{display:flex;align-items:center;gap:8px;padding:3px 0;font-size:14.5px}
+.rep-stores{max-height:200px;overflow:auto;display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:0 12px}
+.rep-full{grid-column:1/-1}
+#printArea{display:none}
+@media (max-width:640px){.rep-grid{grid-template-columns:minmax(0,1fr)}}
+/* Printed report */
+@media print{
+  body.printing{background:#fff !important}
+  body.printing > *:not(#printArea){display:none !important}
+  body.printing #printArea{display:block}
+  #printArea *{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+}
+.rp{font-family:Barlow,"Segoe UI",Arial,sans-serif;color:#14243A;font-size:10pt;line-height:1.35}
+.rp a{color:#14243A}
+.rp-head{background:#12263F;color:#fff;padding:14px 18px;border-radius:6px;display:flex;justify-content:space-between;gap:20px;align-items:flex-end}
+.rp-head h1{font:700 22pt/1 "Barlow Condensed","Arial Narrow",Arial,sans-serif;margin:0}
+.rp-head p{margin:4px 0 0;color:#C8D4E2;font-size:9.5pt}
+.rp-head .rp-meta{text-align:right;font-size:9pt;color:#C8D4E2}
+.rp-meta b{color:#fff}
+.rp-filters{margin:10px 0 0;padding:8px 12px;background:#F2F5F9;border-radius:6px;font-size:9pt;color:#3E4F63}
+.rp-filters b{color:#14243A}
+.rp-kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin:12px 0 4px}
+.rp-kpi{border:1px solid #DCE3EC;border-top:3px solid #1F5FAD;border-radius:6px;padding:7px 10px}
+.rp-kpi.red{border-top-color:#C2121F}.rp-kpi.green{border-top-color:#0B7A43}.rp-kpi.slate{border-top-color:#6E7F96}
+.rp-kpi b{display:block;font:700 18pt/1.05 "Barlow Condensed","Arial Narrow",Arial,sans-serif}
+.rp-kpi span{font-size:8.5pt;color:#5B6B80}
+.rp h2{font:700 14pt/1.1 "Barlow Condensed","Arial Narrow",Arial,sans-serif;margin:16px 0 6px;break-after:avoid}
+.rp h3{font:700 12.5pt/1.1 "Barlow Condensed","Arial Narrow",Arial,sans-serif;margin:14px 0 2px;break-after:avoid}
+.rp-sub{font-size:9pt;color:#5B6B80;margin:0 0 5px;break-after:avoid}
+.rp table{width:100%;border-collapse:collapse;font-size:8.8pt}
+.rp thead{display:table-header-group}
+.rp th{background:#12263F;color:#fff;text-align:left;padding:5px 6px;font-weight:600;border:1px solid #12263F}
+.rp td{padding:4px 6px;border:1px solid #D5DCE5;vertical-align:top}
+.rp tbody tr:nth-child(even) td{background:#F4F7FB}
+.rp tr{break-inside:avoid}
+.rp .n{text-align:center;white-space:nowrap}
+.rp .nw{white-space:nowrap}
+.rp .st{font-weight:700}
+.rp .st.critical{color:#C2121F}.rp .st.attention{color:#8A5300}.rp .st.ontrack{color:#1F5FAD}.rp .st.excellent{color:#0B7A43}
+.rp .rem{color:#B0121D;font-weight:600}
+.rp td.it{min-width:150px;width:28%}
+.rp-notes{margin-top:14px;font-size:8.5pt;color:#5B6B80}
+.rp-notes ul{margin:4px 0;padding-left:16px}
+.rp-credit{margin-top:16px;padding-top:8px;border-top:1px solid #DCE3EC;font-size:8.5pt;color:#5B6B80;display:flex;justify-content:space-between;gap:10px}
+.rp-credit a{font-weight:700;color:#12263F;text-decoration:none}
 
 @keyframes rise{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
 .animate .kpi{animation:rise .45s ease both}
@@ -361,6 +446,7 @@ footer{color:var(--muted);font-size:13.5px;padding:24px 0 0}
   <div class="wrap">
     <h1 class="brand"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 9l1.5-5h15L21 9"/><path d="M3 9h18v3a3 3 0 0 1-6 0 3 3 0 0 1-6 0 3 3 0 0 1-6 0z"/><path d="M5 14v6h14v-6"/></svg>Store Picking Dashboard</h1>
     <span class="asof" id="asof"></span>
+    <button class="top-btn loaded-only" type="button" data-action="report">Print report</button>
     <button class="top-btn loaded-only" id="newFile" type="button">Upload new list</button>
     <button class="top-btn" id="openSettings" type="button">Settings</button>
   </div>
@@ -405,7 +491,15 @@ footer{color:var(--muted);font-size:13.5px;padding:24px 0 0}
             <input type="search" id="fQ" placeholder="Order, SKU, article, STO or item name">
           </span>
         </label>
-        <label>Store<select id="fStore"></select></label>
+        <div class="f-store"><span class="flabel" id="fStoreLbl">Stores</span>
+          <div class="ms" id="msStore">
+            <button type="button" class="ms-btn" id="fStoreBtn" aria-haspopup="true" aria-expanded="false" aria-labelledby="fStoreLbl fStoreBtn">All stores</button>
+            <div class="ms-pop" id="fStorePop" hidden>
+              <div class="ms-acts"><button class="btn small" type="button" id="msAll">Select all</button><button class="btn small" type="button" id="msNone">Clear</button></div>
+              <div class="ms-list" id="fStoreList"></div>
+            </div>
+          </div>
+        </div>
         <label>Picking status
           <select id="fStatus">
             <option value="ready">Ready to pick</option>
@@ -439,6 +533,20 @@ footer{color:var(--muted);font-size:13.5px;padding:24px 0 0}
       </div>
       <div class="f-row2">
         <label class="check"><input type="checkbox" id="fDelayed"> Delayed only</label>
+        <span class="f-sort"><label for="fSort">Sort by</label>
+          <select id="fSort">
+            <option value="">Urgency (default)</option>
+            <option value="age">Waiting time</option>
+            <option value="item">Item</option>
+            <option value="store">Store</option>
+            <option value="order">Order no.</option>
+            <option value="sku">SKU</option>
+            <option value="sto">STO</option>
+            <option value="qty">Qty</option>
+            <option value="status">Status</option>
+          </select>
+          <button class="btn small" type="button" id="fDir" aria-label="Switch sort direction">↓ High to low</button>
+        </span>
         <div class="active-chips" id="activeChips"></div>
         <button class="btn small" id="clearFilters" type="button">Clear all filters</button>
       </div>
@@ -446,6 +554,8 @@ footer{color:var(--muted);font-size:13.5px;padding:24px 0 0}
     <div class="result-sum">
       <p id="resultSum" role="status"></p>
       <div class="bulk">
+        <span class="seg" role="group" aria-label="View"><button type="button" data-action="view" data-v="cards" id="vCards">Store cards</button><button type="button" data-action="view" data-v="table" id="vTable">Table</button></span>
+        <button class="btn small primary" type="button" data-action="report">Print / PDF report</button>
         <button class="btn small" type="button" data-action="copy-mgmt-text">Copy stores summary</button>
         <button class="btn small" type="button" data-action="copy-mgmt-html">Copy summary as email table</button>
         <button class="btn small" type="button" data-action="export-filtered">Export filtered list (CSV)</button>
@@ -458,6 +568,9 @@ footer{color:var(--muted);font-size:13.5px;padding:24px 0 0}
   <section id="v-analytics" class="view" role="tabpanel" hidden></section>
   <footer id="foot" hidden></footer>
 </main>
+<footer class="credit">Built by <a href="https://wajidh.work.gd/" target="_blank" rel="noopener">Abdul Wajid</a></footer>
+<div id="printArea"></div>
+<style id="pageStyle">@page{size:A4 landscape;margin:12mm}</style>
 
 <input type="file" id="file" accept=".csv,text/csv" hidden>
 
@@ -506,6 +619,81 @@ footer{color:var(--muted);font-size:13.5px;padding:24px 0 0}
       </span>
     </div>
   </div>
+</dialog>
+
+<dialog id="reportDlg">
+  <form class="dlg" method="dialog" id="reportForm">
+    <h3>Print / PDF report</h3>
+    <p class="hint">Choose what to include, then pick "Save as PDF" as the printer to create a PDF for your manager.</p>
+    <div class="rep-grid">
+      <label class="f rep-full">Report title<input type="text" id="rTitle"></label>
+      <div class="rep-box rep-full"><h4>Stores</h4>
+        <div class="ms-acts"><button class="btn small" type="button" id="rAll">Select all</button><button class="btn small" type="button" id="rNone">Clear</button></div>
+        <div class="rep-stores" id="rStores"></div>
+      </div>
+      <label class="f">Items to include
+        <select id="rStatus">
+          <option value="ready">Ready to pick</option>
+          <option value="pending">Ready to pick + waiting for STO</option>
+          <option value="waiting">Waiting for STO</option>
+          <option value="rejected">Rejected</option>
+          <option value="packed">Packed</option>
+          <option value="all">All statuses</option>
+        </select>
+      </label>
+      <label class="f">Order age
+        <select id="rAge">
+          <option value="">Any age</option>
+          <option value="0">Under 1 hour</option>
+          <option value="1">1–2 hours</option>
+          <option value="2">2–4 hours</option>
+          <option value="3">4–8 hours</option>
+          <option value="4">Above 8 hours</option>
+        </select>
+      </label>
+      <label class="f">Sort stores by
+        <select id="rStoreSort">
+          <option value="urgency">Urgency (most urgent first)</option>
+          <option value="rank">Performance rank</option>
+          <option value="pending">Pending items (high to low)</option>
+          <option value="pcs">Pending PCS (high to low)</option>
+          <option value="oldest">Oldest pending (oldest first)</option>
+          <option value="delayed">Delayed items (high to low)</option>
+          <option value="name">Store name (A–Z)</option>
+        </select>
+      </label>
+      <label class="f">Sort items by
+        <select id="rItemSort">
+          <option value="oldest">Waiting time (oldest first)</option>
+          <option value="newest">Waiting time (newest first)</option>
+          <option value="order">Order no.</option>
+          <option value="item">Item name (A–Z)</option>
+          <option value="qty">Qty (high to low)</option>
+          <option value="status">Status</option>
+        </select>
+      </label>
+      <div class="rep-box"><h4>Sections</h4>
+        <label><input type="checkbox" id="rKpi" checked> Summary figures</label>
+        <label><input type="checkbox" id="rSum" checked> Store summary table</label>
+        <label><input type="checkbox" id="rItems" checked> Item details by store</label>
+      </div>
+      <div class="rep-box"><h4>Options</h4>
+        <label><input type="checkbox" id="rDelayed"> Delayed items only</label>
+        <label><input type="checkbox" id="rEmpty"> Include stores with nothing to list</label>
+        <label class="f" style="margin-top:6px">Page
+          <select id="rOrient"><option value="landscape">A4 landscape</option><option value="portrait">A4 portrait</option></select>
+        </label>
+      </div>
+    </div>
+    <p class="hint" id="rCount" style="margin-top:12px"></p>
+    <div class="dlg-acts">
+      <span></span>
+      <span>
+        <button class="btn" type="submit" value="cancel" formnovalidate>Cancel</button>
+        <button class="btn go" type="button" id="rPrint">Print / Save as PDF</button>
+      </span>
+    </div>
+  </form>
 </dialog>
 
 <div id="tip" role="tooltip"></div>
@@ -641,11 +829,13 @@ function saveHistory(){
 var state = {
   recs:[], meta:null, loadedAt:0,
   tab:load('pickAlert.tab','overview'),
-  filters:{q:'',field:'all',store:'',status:'ready',age:'',sto:'',delayed:false},
+  filters:null, sort:{key:'',dir:1}, view:load('pickAlert.view','cards'),
   lbSort:'rank', lbStatus:'',
   animate:false
 };
-var DEFAULT_FILTERS = {q:'',field:'all',store:'',status:'ready',age:'',sto:'',delayed:false};
+function freshFilters(){return {q:'',field:'all',store:[],status:'ready',age:'',sto:'',delayed:false,cols:{}};}
+state.filters=freshFilters();
+var COLS={item:'Item',store:'Store',order:'Order',sku:'SKU / article',sto:'STO',status:'Status'};
 
 /* ============ CSV parsing ============ */
 function parseCSV(text){
@@ -1005,17 +1195,28 @@ function recordUploadHistory(sig,now){
 }
 
 /* ============ Filters ============ */
-function filterActive(){
-  var f=state.filters;
-  return Object.keys(DEFAULT_FILTERS).some(function(k){return f[k]!==DEFAULT_FILTERS[k];});
+function colText(l,k){
+  if(k==='item')return l.name+' '+l.details;
+  if(k==='store')return l.store;
+  if(k==='order')return l.order;
+  if(k==='sku')return l.sku+' '+l.article;
+  if(k==='sto')return l.sto+' '+stoText(l);
+  if(k==='status')return statusLabel(l);
+  return '';
 }
+function statusLabel(l){return l.status==='rejected'?(l.reassigned?'Rejected, re-assigned':'Rejected, no new store'):STATUS[l.status].label;}
 function matches(l,ignoreStatus){
   var f=state.filters;
   if(!ignoreStatus){
     if(f.status==='rejected-open'){if(!(l.status==='rejected'&&!l.reassigned))return false;}
     else if(f.status!=='all'&&l.status!==f.status)return false;
   }
-  if(f.store&&l.store!==f.store)return false;
+  if(f.store.length&&f.store.indexOf(l.store)<0)return false;
+  var cols=f.cols||{};
+  for(var ck in cols){
+    var cv=String(cols[ck]||'').trim().toLowerCase();
+    if(cv&&colText(l,ck).toLowerCase().indexOf(cv)<0)return false;
+  }
   if(f.age!==''&&String(l.bucket)!==f.age)return false;
   if(f.sto&&l.stoKind!==f.sto)return false;
   if(f.delayed&&!l.delayed)return false;
@@ -1032,31 +1233,77 @@ function matches(l,ignoreStatus){
   return true;
 }
 function setFilters(obj,tab){
-  state.filters=Object.assign({},DEFAULT_FILTERS,obj||{});
+  var f=freshFilters();
+  Object.keys(obj||{}).forEach(function(k){f[k]=obj[k];});
+  if(typeof f.store==='string')f.store=f.store?[f.store]:[];
+  state.filters=f;
   syncFilterInputs();
   showTab(tab||'pending');
 }
 function syncFilterInputs(){
   var f=state.filters;
   $('fQ').value=f.q;$('fField').value=f.field;$('fStatus').value=f.status;$('fAge').value=f.age;$('fSto').value=f.sto;$('fDelayed').checked=f.delayed;
-  fillStoreSelect();
-  $('fStore').value=f.store;
+  fillStorePicker();
+  syncSortInputs();
 }
-function fillStoreSelect(){
+function storeNames(){
   var names=[];
   live().forEach(function(l){if(names.indexOf(l.store)<0)names.push(l.store);});
-  names.sort();
-  if(state.filters.store&&names.indexOf(state.filters.store)<0)names.push(state.filters.store);
-  $('fStore').innerHTML='<option value="">All stores</option>'+names.map(function(n){return '<option value="'+esc(n)+'">'+esc(n)+'</option>';}).join('');
+  return names.sort();
+}
+function fillStorePicker(){
+  var sel=state.filters.store;
+  var names=storeNames();
+  sel.forEach(function(n){if(names.indexOf(n)<0)names.push(n);});
+  var counts={};live().forEach(function(l){if(l.status==='ready')counts[l.store]=(counts[l.store]||0)+1;});
+  $('fStoreList').innerHTML=names.map(function(n){
+    return '<label><input type="checkbox" data-store="'+esc(n)+'"'+(sel.indexOf(n)>=0?' checked':'')+'><span>'+esc(n)+'</span><span class="cnt">'+(counts[n]?counts[n]+' to pick':'')+'</span></label>';
+  }).join('');
+  var b=$('fStoreBtn');
+  b.textContent=!sel.length?'All stores':(sel.length===1?sel[0]:sel.length+' stores selected');
+  b.classList.toggle('on',sel.length>0);
+  b.title=sel.join(', ');
 }
 function readFilterInputs(){
-  state.filters={q:$('fQ').value,field:$('fField').value,store:$('fStore').value,status:$('fStatus').value,age:$('fAge').value,sto:$('fSto').value,delayed:$('fDelayed').checked};
+  var f=state.filters;
+  f.q=$('fQ').value;f.field=$('fField').value;f.status=$('fStatus').value;f.age=$('fAge').value;f.sto=$('fSto').value;f.delayed=$('fDelayed').checked;
+}
+function syncSortInputs(){
+  $('fSort').value=state.sort.key;
+  $('fDir').hidden=!state.sort.key;
+  $('fDir').textContent=state.sort.dir<0?'↓ High to low':'↑ Low to high';
+  if(state.sort.key==='age')$('fDir').textContent=state.sort.dir<0?'↓ Oldest first':'↑ Newest first';
+  if(state.sort.key==='item'||state.sort.key==='store'||state.sort.key==='sto'||state.sort.key==='status')$('fDir').textContent=state.sort.dir<0?'↓ Z to A':'↑ A to Z';
+}
+var SORT_DEFAULT_DIR={age:-1,qty:-1};
+function setSort(key,toggle){
+  if(!key)state.sort={key:'',dir:1};
+  else if(toggle&&state.sort.key===key)state.sort.dir*=-1;
+  else state.sort={key:key,dir:SORT_DEFAULT_DIR[key]||1};
+  syncSortInputs();
+}
+function sortItems(items){
+  var k=state.sort.key,d=state.sort.dir;
+  if(!k)return items.sort(lineSort);
+  var coll=new Intl.Collator(undefined,{numeric:true,sensitivity:'base'});
+  var val={
+    item:function(l){return l.name;},store:function(l){return l.store;},order:function(l){return l.order;},
+    sku:function(l){return l.sku;},sto:function(l){return stoText(l);},
+    status:function(l){return STATUS_ORDER.indexOf(l.status);},qty:function(l){return l.qty;},
+    age:function(l){return l.age===null?-1:l.age;}
+  }[k];
+  return items.sort(function(a,b){
+    var x=val(a),y=val(b);
+    var c=typeof x==='number'?x-y:coll.compare(x,y);
+    return c*d||lineSort(a,b);
+  });
 }
 function chipList(){
   var f=state.filters,out=[];
   var fieldName={all:'',order:'Order ',sku:'SKU ',article:'Article ',sto:'STO '}[f.field];
   if(f.q.trim())out.push({k:'q',t:(fieldName||'Search ')+'"'+f.q.trim()+'"'});
-  if(f.store)out.push({k:'store',t:'Store: '+f.store});
+  if(f.store.length)out.push({k:'store',t:f.store.length===1?'Store: '+f.store[0]:'Stores ('+f.store.length+'): '+f.store.join(', ')});
+  Object.keys(f.cols||{}).forEach(function(k){if(String(f.cols[k]).trim())out.push({k:'col:'+k,t:COLS[k]+' contains "'+String(f.cols[k]).trim()+'"'});});
   if(f.status!=='ready')out.push({k:'status',t:'Status: '+$('fStatus').selectedOptions[0].text});
   if(f.age!=='')out.push({k:'age',t:'Age: '+AGE_BUCKET_LONG[+f.age]});
   if(f.sto)out.push({k:'sto',t:'STO: '+$('fSto').selectedOptions[0].text});
@@ -1306,6 +1553,145 @@ function exportMgmt(){
   download('Store picking management report - '+stamp(Date.now())+'.csv',toCSV(head,rows),'text/csv;charset=utf-8');
 }
 
+/* ============ Print / PDF report ============ */
+function openReport(){
+  if(!state.meta)return;
+  enrich(Date.now());
+  var names=storeNames();
+  var sel=state.filters.store.length?state.filters.store:names;
+  $('rTitle').value=$('rTitle').value||'Store Picking Report';
+  $('rStores').innerHTML=names.map(function(n){return '<label><input type="checkbox" data-store="'+esc(n)+'"'+(sel.indexOf(n)>=0?' checked':'')+'> '+esc(n)+'</label>';}).join('');
+  var st=state.filters.status;
+  $('rStatus').value=['ready','waiting','packed','all'].indexOf(st)>=0?st:(st.indexOf('rejected')===0?'rejected':'ready');
+  $('rAge').value=state.filters.age;
+  $('rDelayed').checked=state.filters.delayed;
+  updateReportCount();
+  $('reportDlg').returnValue='';
+  $('reportDlg').showModal();
+}
+function reportOpts(){
+  return {
+    title:$('rTitle').value.trim()||'Store Picking Report',
+    stores:[].slice.call($('rStores').querySelectorAll('input:checked')).map(function(i){return i.dataset.store;}),
+    status:$('rStatus').value,age:$('rAge').value,delayed:$('rDelayed').checked,empty:$('rEmpty').checked,
+    storeSort:$('rStoreSort').value,itemSort:$('rItemSort').value,
+    kpi:$('rKpi').checked,sum:$('rSum').checked,items:$('rItems').checked,orient:$('rOrient').value
+  };
+}
+function reportItems(o){
+  return live().filter(function(l){
+    if(o.stores.indexOf(l.store)<0)return false;
+    if(o.status==='pending'){if(l.status!=='ready'&&l.status!=='waiting')return false;}
+    else if(o.status!=='all'&&l.status!==o.status)return false;
+    if(o.age!==''&&String(l.bucket)!==o.age)return false;
+    if(o.delayed&&!l.delayed)return false;
+    return true;
+  });
+}
+function updateReportCount(){
+  var o=reportOpts(),n=reportItems(o);
+  $('rCount').textContent=o.stores.length?('The report will list '+plural(n.length,'item')+' across '+plural(uniq(n.map(function(l){return l.store;})).length,'store')+' ('+plural(o.stores.length,'store')+' selected).'):'Select at least one store.';
+  $('rPrint').disabled=!o.stores.length||!(o.kpi||o.sum||o.items);
+}
+function shortSto(l){return {'from-store':'No STO needed',ecom:'E-Com picked',waiting:l.status==='rejected'?'No STO':'Waiting for STO'}[l.stoKind]||l.sto;}
+var REPORT_STATUS={ready:'Ready to pick',pending:'Ready to pick and waiting for STO',waiting:'Waiting for STO',rejected:'Rejected',packed:'Packed',all:'All statuses'};
+function buildReport(o){
+  enrich(Date.now());
+  var items=reportItems(o);
+  var all=storeStats().filter(function(s){return o.stores.indexOf(s.name)>=0;});
+  var r=ranked(storeStats());var rankOf={};r.forEach(function(s){rankOf[s.name]=s.rank;});
+  var byStore={};items.forEach(function(l){(byStore[l.store]=byStore[l.store]||[]).push(l);});
+  var stores=all.filter(function(s){return o.empty||byStore[s.name];});
+  var cmp={
+    urgency:urgencySort,
+    rank:function(a,b){return rankOf[a.name]-rankOf[b.name];},
+    pending:function(a,b){return b.ready.length-a.ready.length||urgencySort(a,b);},
+    pcs:function(a,b){return b.readyPcs-a.readyPcs||urgencySort(a,b);},
+    oldest:function(a,b){return (b.oldest===null?-1:b.oldest)-(a.oldest===null?-1:a.oldest);},
+    delayed:function(a,b){return b.delayed-a.delayed||urgencySort(a,b);},
+    name:function(a,b){return a.name.localeCompare(b.name);}
+  }[o.storeSort];
+  stores.sort(cmp);
+  var coll=new Intl.Collator(undefined,{numeric:true,sensitivity:'base'});
+  var icmp={
+    oldest:function(a,b){return (b.age||0)-(a.age||0);},
+    newest:function(a,b){return (a.age||0)-(b.age||0);},
+    order:function(a,b){return coll.compare(a.order,b.order);},
+    item:function(a,b){return coll.compare(a.name,b.name);},
+    qty:function(a,b){return b.qty-a.qty||(b.age||0)-(a.age||0);},
+    status:function(a,b){return STATUS_ORDER.indexOf(a.status)-STATUS_ORDER.indexOf(b.status)||(b.age||0)-(a.age||0);}
+  }[o.itemSort];
+  var m=state.meta;
+  var sortLabel=function(id){var e=$(id);return e.selectedOptions[0].text.toLowerCase();};
+  var allNames=storeNames();
+  var h='<div class="rp"><div class="rp-head"><div><h1>'+esc(o.title)+'</h1><p>Pending online order picking across stores</p></div>'+
+    '<div class="rp-meta">Generated <b>'+esc(dayClockQatar(Date.now()))+'</b> (Qatar time)<br>List from '+esc(dayClockQatar(m.exportedAt||m.refTime))+'<br>Source: '+esc(m.fileName)+'<br>Prepared by: '+esc(settings.signature)+'</div></div>';
+  h+='<div class="rp-filters"><b>Stores:</b> '+(o.stores.length===allNames.length?'All stores ('+allNames.length+')':esc(o.stores.join(', ')))+
+    '. <b>Items:</b> '+esc(REPORT_STATUS[o.status])+(o.age!==''?', '+esc(AGE_BUCKET_LONG[+o.age].toLowerCase()):'')+(o.delayed?', delayed only':'')+
+    '. <b>Sorted:</b> stores by '+esc(sortLabel('rStoreSort'))+', items by '+esc(sortLabel('rItemSort'))+'.</div>';
+  if(o.kpi){
+    var ready=[],waiting=[],packed=[],rej=[];
+    all.forEach(function(s){ready=ready.concat(s.ready);waiting=waiting.concat(s.waiting);packed=packed.concat(s.packed);rej=rej.concat(s.rejected);});
+    var del=ready.concat(waiting).filter(function(l){return l.delayed;}).length;
+    var k=[
+      ['Pending items',ready.length,''],['Pending PCS',fmtNum(sum(ready,'qty')),''],
+      ['Stores with pending items',all.filter(function(s){return s.ready.length;}).length,''],['Delayed items',del,del?'red':'green'],
+      ['Waiting for STO',waiting.length,'slate'],['Packed items',packed.length,'green'],
+      ['Rejected, no new store',rej.filter(function(l){return !l.reassigned;}).length,'red'],['Critical stores',all.filter(function(s){return s.perf==='critical';}).length,'red']
+    ];
+    h+='<div class="rp-kpis">'+k.map(function(x){return '<div class="rp-kpi '+x[2]+'"><b>'+esc(x[1])+'</b><span>'+esc(x[0])+'</span></div>';}).join('')+'</div>';
+  }
+  if(o.sum){
+    h+='<h2>Store summary</h2>';
+    if(stores.length){
+      h+='<table><thead><tr><th>Rank</th><th>Store</th><th>Status</th><th class="n">Pending items</th><th class="n">Pending PCS</th><th>Oldest</th><th class="n">Delayed</th><th class="n">Waiting STO</th><th class="n">Packed</th><th class="n">Rejected</th><th class="n">Packed share</th><th class="n">Reminders sent</th></tr></thead><tbody>'+
+      stores.map(function(s){
+        return '<tr><td class="n">'+rankOf[s.name]+'</td><td><b>'+esc(s.name)+'</b></td><td class="st '+s.perf+'">'+esc(PERF[s.perf].label)+'</td><td class="n">'+s.ready.length+'</td><td class="n">'+fmtNum(s.readyPcs)+'</td><td class="nw">'+esc(s.oldest===null?'–':ageText(s.oldest,s.approx))+'</td><td class="n">'+s.delayed+'</td><td class="n">'+s.waiting.length+'</td><td class="n">'+s.packed.length+'</td><td class="n">'+s.rejected.length+'</td><td class="n">'+Math.round(s.completion*100)+'%</td><td class="n">'+s.reminders.sent+'</td></tr>';
+      }).join('')+'</tbody></table>';
+    }else h+='<p class="rp-sub">No stores match these options.</p>';
+  }
+  if(o.items){
+    h+='<h2>Item details by store</h2>';
+    var any=false;
+    stores.forEach(function(s){
+      var list=(byStore[s.name]||[]).slice().sort(icmp);
+      if(!list.length)return;
+      any=true;
+      h+='<h3>'+esc(s.name)+'</h3><p class="rp-sub"><span class="st '+s.perf+'">'+esc(PERF[s.perf].label)+'</span>. '+plural(list.length,'item')+', '+fmtNum(sum(list,'qty'))+' PCS listed. Oldest pending: '+esc(s.oldest===null?'none':ageText(s.oldest,s.approx))+'.</p>';
+      h+='<table><thead><tr><th class="n">#</th><th>Order No.</th><th>Item</th><th>SKU</th><th>Article No.</th><th class="n">Qty</th><th>STO</th><th>Status</th><th>Waiting</th><th>Remarks</th></tr></thead><tbody>'+
+        list.map(function(l,i){
+          var rem=remarks(l);
+          return '<tr><td class="n">'+(i+1)+'</td><td class="nw">'+esc(l.order)+'</td><td class="it">'+esc(l.name)+(l.details?'<br><span style="color:#5B6B80">'+esc(l.details)+'</span>':'')+'</td><td class="nw">'+esc(l.sku)+'</td><td class="nw">'+esc(l.article)+'</td><td class="n">'+esc(fmtNum(l.qty))+'</td><td class="nw">'+esc(shortSto(l))+'</td><td>'+esc(statusLabel(l))+'</td><td class="nw">'+esc(ageText(l.age,l.approx))+'</td><td class="'+(rem?'rem':'')+'">'+esc(rem)+'</td></tr>';
+        }).join('')+'</tbody></table>';
+    });
+    if(!any)h+='<p class="rp-sub">No items match these options.</p>';
+  }
+  var notes=m.notes.slice();
+  notes.push('Packed share = packed lines ÷ all lines assigned to the store in this export. Orders already dispatched are not in the file, so this is not a full-day completion rate.');
+  h+='<div class="rp-notes"><b>Notes</b><ul>'+notes.map(function(n){return '<li>'+esc(n)+'</li>';}).join('')+'</ul></div>';
+  h+='<div class="rp-credit"><span>'+esc(settings.signature)+'</span><span>Built by <a href="https://wajidh.work.gd/" target="_blank" rel="noopener">Abdul Wajid</a></span></div></div>';
+  return h;
+}
+function printReport(){
+  var o=reportOpts();
+  if(!o.stores.length)return;
+  $('printArea').innerHTML=buildReport(o);
+  $('pageStyle').textContent='@page{size:A4 '+o.orient+';margin:12mm}';
+  $('reportDlg').close('print');
+  var old=document.title;
+  document.title=o.title+' '+stamp(Date.now());
+  document.body.classList.add('printing');
+  setTimeout(function(){
+    window.print();
+    setTimeout(function(){document.body.classList.remove('printing');document.title=old;},500);
+  },50);
+}
+$('rPrint').addEventListener('click',printReport);
+$('rAll').addEventListener('click',function(){$('rStores').querySelectorAll('input').forEach(function(i){i.checked=true;});updateReportCount();});
+$('rNone').addEventListener('click',function(){$('rStores').querySelectorAll('input').forEach(function(i){i.checked=false;});updateReportCount();});
+$('reportForm').addEventListener('change',updateReportCount);
+window.addEventListener('afterprint',function(){document.body.classList.remove('printing');});
+
 /* ============ Icons ============ */
 var ICON={
   box:'<path d="M21 8l-9-5-9 5 9 5 9-5z"/><path d="M3 8v8l9 5 9-5V8"/><path d="M12 13v8"/>',
@@ -1380,10 +1766,26 @@ function stoCell(l){
   if(l.stoKind==='ecom')return '<span class="sto-none">E-Com picked</span>';
   return '<span class="id">'+esc(l.sto)+'</span>';
 }
+function th(key,label,cls){
+  var on=state.sort.key===key;
+  var arr=on?(state.sort.dir<0?'▼':'▲'):'▲▼';
+  return '<th scope="col"'+(cls?' class="'+cls+'"':'')+(on?' aria-sort="'+(state.sort.dir<0?'descending':'ascending')+'"':'')+'><button type="button" class="th-sort'+(on?' on':'')+'" data-action="sort" data-key="'+key+'" title="Sort by '+esc(label)+'">'+esc(label)+'<i class="arr">'+arr+'</i></button></th>';
+}
+function colFilterCell(key){
+  if(!key)return '<th></th>';
+  var v=(state.filters.cols||{})[key]||'';
+  return '<th><input type="search" class="'+(v?'on':'')+'" id="cf-'+key+'" data-col="'+key+'" value="'+esc(v)+'" placeholder="Filter" aria-label="Filter '+esc(COLS[key])+'"></th>';
+}
 function itemTable(items,opt){
   opt=opt||{};
-  var h='<table class="items"><thead><tr>'+(opt.status?'<th scope="col">Status</th>':'')+'<th scope="col">Item</th>'+(opt.store?'<th scope="col">Store</th>':'')+
-    '<th scope="col">Order</th><th scope="col">SKU and article</th><th scope="col">STO</th><th scope="col" class="qty">Qty</th><th scope="col">'+(opt.packedCol?'Packed / age':'Waiting')+'</th></tr></thead><tbody>';
+  items=sortItems(items.slice());
+  var h='<table class="items"><thead><tr>'+(opt.status?th('status','Status'):'')+th('item','Item')+(opt.store?th('store','Store'):'')+
+    th('order','Order')+th('sku','SKU and article')+th('sto','STO')+th('qty','Qty','qty')+th('age',opt.packedCol?'Packed / age':'Waiting')+'</tr>';
+  if(opt.colFilters){
+    h+='<tr class="colf">'+(opt.status?colFilterCell('status'):'')+colFilterCell('item')+(opt.store?colFilterCell('store'):'')+colFilterCell('order')+colFilterCell('sku')+colFilterCell('sto')+colFilterCell('')+colFilterCell('')+'</tr>';
+  }
+  h+='</thead><tbody>';
+  if(!items.length)h+='<tr class="empty-row"><td colspan="9">No records match. Clear a filter to see more.</td></tr>';
   items.forEach(function(l){
     var ageCls=l.status==='ready'||l.status==='waiting'?l.level:'';
     var ageVal=opt.packedCol&&l.status==='packed'&&l.packedAt?'Packed '+whenQatar(l.packedAt)+(l.approx?' (approx.)':''):ageText(l.age,l.approx);
@@ -1553,8 +1955,10 @@ function lbRow(s){
 }
 
 function renderPending(stores){
-  fillStoreSelect();
-  $('fStore').value=state.filters.store;
+  fillStorePicker();
+  syncSortInputs();
+  $('vCards').setAttribute('aria-pressed',String(state.view==='cards'));
+  $('vTable').setAttribute('aria-pressed',String(state.view==='table'));
   var f=state.filters;
   var chips=chipList();
   $('activeChips').innerHTML=chips.map(function(c){return '<button class="achip" type="button" data-action="rm-filter" data-k="'+c.k+'">'+esc(c.t)+' <b aria-label="Remove">×</b></button>';}).join('');
@@ -1567,8 +1971,8 @@ function renderPending(stores){
   var nStores=uniq(shown.map(function(l){return l.store;})).length;
   var q=f.q.trim();
   $('resultSum').textContent='Showing '+shown.length+' of '+base.length+' '+(f.status==='all'?'records':statusName+' records')+' at '+plural(nStores,'store')+(q?' matching "'+q+'"':'')+'.';
-  if(f.status!=='ready'){
-    host.innerHTML=shown.length?'<section class="panel">'+itemTable(shown.sort(lineSort),{store:true,status:true,packedCol:true})+'</section>':'<div class="empty">No records match. Clear a filter to see more.</div>';
+  if(f.status!=='ready'||state.view==='table'){
+    host.innerHTML='<section class="panel">'+itemTable(shown,{store:true,status:true,packedCol:true,colFilters:true})+'</section>';
     return;
   }
   if(!base.length){host.innerHTML='<div class="clear"><h3>Nothing left to pick</h3><p>Every store with an STO has packed or rejected its items. Great teamwork.</p></div>';return;}
@@ -1576,6 +1980,7 @@ function renderPending(stores){
   var byName={};stores.forEach(function(s){byName[s.name]=s;});
   var groups={};shown.forEach(function(l){(groups[l.store]=groups[l.store]||[]).push(l);});
   var names=Object.keys(groups).sort(function(a,b){return urgencySort(byName[a],byName[b]);});
+  if(state.sort.key==='store')names.sort(function(a,b){return a.localeCompare(b)*state.sort.dir;});
   host.innerHTML=names.map(function(n){return storeCard(byName[n],groups[n].sort(lineSort));}).join('');
 }
 function storeCard(s,items){
@@ -1761,7 +2166,8 @@ function loadText(text,name,lastModified,fromStorage){
     total:recs.length,dupes:dupes,attention:attention,valid:recs.length-dupes-attention};
   state.loadedAt=Date.now();
   enrich(Date.now());
-  state.filters=Object.assign({},DEFAULT_FILTERS);
+  state.filters=freshFilters();
+  state.sort={key:'',dir:1};
   syncFilterInputs();
   $('error').hidden=true;
   $('uploadView').hidden=true;$('tabs').hidden=false;$('foot').hidden=false;
@@ -1849,7 +2255,16 @@ document.addEventListener('click',function(e){
       setFilters(f);
       break;
     }
-    case 'rm-filter': state.filters[el.dataset.k]=DEFAULT_FILTERS[el.dataset.k]; if(el.dataset.k==='q')state.filters.field='all'; syncFilterInputs(); render(); break;
+    case 'rm-filter':{
+      var rk=el.dataset.k;
+      if(rk.indexOf('col:')===0)delete state.filters.cols[rk.slice(4)];
+      else state.filters[rk]=freshFilters()[rk];
+      if(rk==='q')state.filters.field='all';
+      syncFilterInputs(); render(); break;
+    }
+    case 'sort': setSort(el.dataset.key,true); render(); break;
+    case 'view': state.view=el.dataset.v; save('pickAlert.view',state.view); render(); break;
+    case 'report': openReport(); break;
     case 'wa':{
       var items=currentStoreItems(storeName);
       var msg=alertText(storeName,items,true);
@@ -1895,7 +2310,8 @@ document.addEventListener('click',function(e){
     case 'export-filtered':{
       var rows=live().filter(function(l){return matches(l);}).sort(function(a,b){return a.store.localeCompare(b.store)||lineSort(a,b);});
       if(!rows.length){toast('No records match the filters, so nothing was exported.');break;}
-      exportRecords(rows,state.filters.store||'All stores');toast(plural(rows.length,'record')+' exported.');break;
+      var sl=state.filters.store;
+      exportRecords(rows,!sl.length?'All stores':(sl.length===1?sl[0]:sl.length+' stores'));toast(plural(rows.length,'record')+' exported.');break;
     }
     case 'export-mgmt': exportMgmt(); toast('Management report exported.'); break;
     case 'copy-waiting':
@@ -1959,9 +2375,41 @@ $('tabs').addEventListener('keydown',function(e){
   n.focus();n.click();
 });
 var qTimer;
-['fField','fStore','fStatus','fAge','fSto','fDelayed'].forEach(function(id){$(id).addEventListener('change',function(){readFilterInputs();render();});});
+['fField','fStatus','fAge','fSto','fDelayed'].forEach(function(id){$(id).addEventListener('change',function(){readFilterInputs();render();});});
 $('fQ').addEventListener('input',function(){clearTimeout(qTimer);qTimer=setTimeout(function(){readFilterInputs();render();},150);});
-$('clearFilters').addEventListener('click',function(){state.filters=Object.assign({},DEFAULT_FILTERS);syncFilterInputs();render();});
+$('clearFilters').addEventListener('click',function(){state.filters=freshFilters();setSort('');syncFilterInputs();render();});
+$('fSort').addEventListener('change',function(){setSort($('fSort').value,false);render();});
+$('fDir').addEventListener('click',function(){state.sort.dir*=-1;syncSortInputs();render();});
+/* Multi-store picker */
+function togglePicker(open){
+  $('fStorePop').hidden=!open;
+  $('fStoreBtn').setAttribute('aria-expanded',String(open));
+}
+$('fStoreBtn').addEventListener('click',function(){togglePicker($('fStorePop').hidden);});
+$('fStoreList').addEventListener('change',function(){
+  state.filters.store=[].slice.call($('fStoreList').querySelectorAll('input:checked')).map(function(i){return i.dataset.store;});
+  render();
+});
+$('msAll').addEventListener('click',function(){state.filters.store=storeNames();render();});
+$('msNone').addEventListener('click',function(){state.filters.store=[];render();});
+document.addEventListener('click',function(e){if(!$('fStorePop').hidden&&!e.target.closest('#msStore'))togglePicker(false);});
+document.addEventListener('keydown',function(e){if(e.key==='Escape'&&!$('fStorePop').hidden){togglePicker(false);$('fStoreBtn').focus();}});
+/* Column filters keep focus while the table redraws */
+var cfTimer;
+document.addEventListener('input',function(e){
+  var inp=e.target.closest&&e.target.closest('input[data-col]');
+  if(!inp)return;
+  clearTimeout(cfTimer);
+  cfTimer=setTimeout(function(){
+    var key=inp.dataset.col,pos=inp.selectionStart;
+    document.querySelectorAll('input[data-col]').forEach(function(i){
+      if(i.value.trim())state.filters.cols[i.dataset.col]=i.value;else delete state.filters.cols[i.dataset.col];
+    });
+    render();
+    var n=$('cf-'+key);
+    if(n){n.focus();try{n.setSelectionRange(pos,pos);}catch(x){}}
+  },250);
+});
 document.addEventListener('change',function(e){if(e.target.id==='lbSort'){state.lbSort=e.target.value;render();}});
 
 /* Tooltip */
@@ -2039,7 +2487,7 @@ setInterval(function(){
   if(!state.meta)return;
   var a=document.activeElement;
   if(a&&(a.tagName==='SELECT'||a.tagName==='INPUT'))return;
-  if($('emailDlg').open||$('settings').open)return;
+  if($('emailDlg').open||$('settings').open||$('reportDlg').open||!$('fStorePop').hidden)return;
   render();
 },60000);
 
@@ -2049,7 +2497,7 @@ setInterval(function(){
   history.items={};history.storeOverdue={};history.sigs={};saveHistory();
   backToUpload();
 })();
-window.__pickDashboard={state:state,live:live,storeStats:storeStats,alertText:alertText,alertHtml:alertHtml,mgmtSummary:mgmtSummary,history:function(){return history;}};
+window.__pickDashboard={buildReport:buildReport,reportOpts:reportOpts,state:state,live:live,storeStats:storeStats,alertText:alertText,alertHtml:alertHtml,mgmtSummary:mgmtSummary,history:function(){return history;}};
 })();
 </script>
 </body>
